@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../helper';
+
 import { useParams } from 'react-router-dom';
 
 const ProfileData = () => {
   const { userId } = useParams();
+
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/profiledata/${userId}`);
+        const response = await axios.get(`${BASEURL}/profiledata/${userId}`);
         setUser(response.data);
       } catch (error) {
         console.log(error);
@@ -18,7 +22,7 @@ const ProfileData = () => {
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, BASEURL]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -28,7 +32,7 @@ const ProfileData = () => {
     <div>
       <h1>User Profile</h1>
       <p>Name: {user.child_name}</p>
-      <img src={"http://localhost:8000/" + user.picture} alt={"profile picture of" + user.child_name} style={{ width: "300px", height: "300px" }} />
+      <img src={`${BASEURL}/${user.picture}`} alt={`profile picture of ${user.child_name}`} style={{ width: "300px", height: "300px" }} />
       <p>age: {user.age}</p>
       <p>gender:{user.gender}</p>
       <p>city:{user.city}</p>
@@ -39,7 +43,6 @@ const ProfileData = () => {
       <p>interest: {user.interest}</p>
       <p>availability: {user.availability}</p>
       <p>additional_info:{user.additional_info}</p>
-
     </div>
   );
 };

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { BASE_URL } from '../helper';
 
 const AuthenticationForm = ({ setShowAuth, isSignup }) => {
+ 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,6 +14,7 @@ const AuthenticationForm = ({ setShowAuth, isSignup }) => {
 
   let navigate = useNavigate();
 
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
   //console.log(email, password, confirmPassword);
 
   const handleClick = () => {
@@ -26,7 +29,7 @@ const AuthenticationForm = ({ setShowAuth, isSignup }) => {
         return;
       }
       const url = isSignup ? 'signup' : 'login';
-      const response = await axios.post(`http://localhost:8000/${url}`, {
+      const response = await axios.post(`${BASEURL}/${url}`, {
         email,
         password,
       });

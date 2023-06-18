@@ -1,7 +1,9 @@
 import { useState} from 'react'
 import axios from 'axios'
+import { BASE_URL } from '../helper';
 
 const MsgInput = ({ user, selectedUser, getUserMessages, getSelectedUsersMessages }) => {
+    const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
     const [textArea, setTextArea] = useState("")
     const userId = user?.user_id
     const selectedUserId = selectedUser?.user_id
@@ -17,7 +19,7 @@ const MsgInput = ({ user, selectedUser, getUserMessages, getSelectedUsersMessage
         console.log(" this is message:" , message);
 
         try {
-            await axios.post('http://localhost:8000/message', { message })
+            await axios.post(`${BASEURL}/message`, { message })
             getUserMessages()
             getSelectedUsersMessages()
             setTextArea("")

@@ -1,9 +1,10 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import { useCookies } from "react-cookie";
+import { BASE_URL } from '../helper';
 
 export default function MatchesDisplay({matches, setSelectedUser}) {
-
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
   const [matchedProfiles, setMatchedProfiles] = useState (null);
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const matchedUserIds = matches?.map(({user_id}) => user_id);
@@ -12,7 +13,7 @@ export default function MatchesDisplay({matches, setSelectedUser}) {
 
   const getMatches = async() => {
     try {
-      const response = await axios.get('http://localhost:8000/users', {
+      const response = await axios.get(`${BASEURL}/users`, {
         params: { userIds: JSON.stringify(matchedUserIds)}  //json.stringify because it passing through array of matcheduserIds
       })
       setMatchedProfiles(response.data);

@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { BASE_URL } from '../helper';
+
 
 const Dashboard = () => {
+    const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const userId = cookies.UserId;
     const [user, setUser] = useState({
@@ -32,17 +35,16 @@ const Dashboard = () => {
 
     const getUser = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/user', { params: { userId: userId } });
-            setUser(response.data);
+          const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
+          setUser(response.data);
+        } catch (error) {
+          console.log(error);
         }
-        catch (error) {
-            console.log(error);
-        }
-    };
+      };
 
     const getMatchedUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/matched-users", {
+            const response = await axios.get(`${BASEURL}/matched-users`, {
                 params: { city: user?.show_matches }
             });
             setMatchedUsers(response.data);
@@ -63,7 +65,7 @@ const Dashboard = () => {
 
     const updateMatches = async (matchedUserId) => {
         try {
-            await axios.put("http://localhost:8000/addmatch", {
+            await axios.put(`${BASEURL}/addmatch`, {
                 userId,
                 matchedUserId
             });
@@ -75,7 +77,7 @@ const Dashboard = () => {
 
     const createPlaydate = async (matchedUserId) => {
         try {
-            const response = await axios.post("http://localhost:8000/create-playdate", {
+            const response = await axios.post(`${BASEURL}/create-playdate`, {
                 userId,
                 matchedUserId
             });

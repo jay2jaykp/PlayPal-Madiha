@@ -3,6 +3,7 @@ import MatchesDisplay from './MatchesDisplay';
 import MsgDisplay from './MsgDisplay';
 import { useState } from 'react';
 
+
 const MsgContainer = ({ user }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   console.log("Number of matches:", user.matches.length);

@@ -3,6 +3,7 @@ import Nav from "../components/Nav";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { BASE_URL } from '../helper';
 
 const profile = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -23,6 +24,7 @@ const profile = () => {
   });
 
   let navigate = useNavigate();
+  const BASE_URL = `${BASE_URL}` || 'http://localhost:8000';
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -42,7 +44,7 @@ const profile = () => {
         }
       }
 
-      const response = await axios.put('http://localhost:8000/user', formData, {
+      const response = await axios.put(`${BASE_URL}/user`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -1,4 +1,5 @@
 import './App.css'
+import './helper.jsx'
 
 //import page content
 import Home from "./routes/Home";
@@ -9,7 +10,9 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import Terms from './routes/Terms';
 
+
 function App() {
+  
 
   const [cookies, setCookies, removeCookie ] = useCookies (['user'])
 

@@ -2,9 +2,10 @@ import Messages from './Messages';
 import MsgInput from './MsgInput';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { BASE_URL } from '../helper';
 
 export default function MsgDisplay({ user, selectedUser }) {
-
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
   const userId = user?.user_id;
   const selectedUserId = selectedUser?.user_id;
   const [usersMessages, setUsersMessages] = useState(null);
@@ -12,7 +13,7 @@ export default function MsgDisplay({ user, selectedUser }) {
 
   const getUsersMessages = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/messages', {
+      const response = await axios.get(`${BASEURL}/messages`, {
         params: { userId: userId, correspondingUserId: selectedUserId }
       });
       setUsersMessages(response.data);
@@ -23,7 +24,7 @@ export default function MsgDisplay({ user, selectedUser }) {
 
   const getSelectedUsersMessages = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/messages', {
+        const response = await axios.get(`${BASEURL}/messages`, {
             params: { userId: selectedUserId , correspondingUserId: userId}
         })
         setSelectedUsersMessages(response.data)
