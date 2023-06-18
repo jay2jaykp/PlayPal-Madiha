@@ -9,7 +9,7 @@ const path = require('path');
 require('dotenv').config();
 
 const uri = process.env.URI;
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 app.use(cors());
@@ -403,8 +403,6 @@ app.post('/create-playdate', async (req, res) => {
     await client.close();
   }
 });
-
-
 
 app.listen(PORT, function () {
   console.log('Server listening on port ' + PORT);
