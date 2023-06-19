@@ -17,6 +17,9 @@ html {
     padding: 12px 30px;
     border-radius: 30px;
     border: none;
+    position: fixed;
+  top: 20px;
+  right: 20px;
   }
   
   .login-btn:disabled {
@@ -29,8 +32,8 @@ html {
   }
   
   .logoimg {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
   }
   
   .btn {
@@ -41,7 +44,12 @@ html {
     padding: 12px 30px;
     border-radius: 30px;
     border: none;
-  }
+    /* Positioning */
+    position: fixed;
+    top: 65%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+ }
   
   .authentication {
     position: absolute;
@@ -67,11 +75,16 @@ html {
   }
   
   #main {
-    background-image: url("./assets/images/main.png");
+    background-image: url("./assets/images/backgroudImage.png");
     background-repeat: no-repeat;
-    background-size: cover;
+   /* background-size: cover;*/
     width: 60%;
     height: 600px;
+     /* Positioning */
+    position: fixed;
+    top: 60%;
+    left: 62%;
+    transform: translate(-50%, -50%);
   }
 /************* Log In Form *******/
   .authentication {
