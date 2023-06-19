@@ -41,7 +41,7 @@ export default function MatchesDisplay({ matches, setSelectedUser }) {
       {matchedProfiles?.map((match) => (   // if matchprofiles exist then map each match on an index
         <div key={match.user_id} className="matchCard" onClick={() => setSelectedUser(match)}>
           <div className="img-container">
-            <img src={match?.picture} alt={match?.child_name + " profile"} />
+            <img src={`${BASEURL}/${match?.picture}`} alt={match?.child_name + " profile"} />
             <p className="chats-name">{match?.child_name}</p>
           </div>
         </div>
