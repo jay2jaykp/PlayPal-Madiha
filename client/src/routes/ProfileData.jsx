@@ -32,7 +32,7 @@ const ProfileData = () => {
     <div>
       <h1>User Profile</h1>
       <p>Name: {user.child_name}</p>
-      <img src={`${BASEURL}/${user.picture}`} alt={`profile picture of ${user.child_name}`} style={{ width: "300px", height: "300px" }} />
+      <img src={`http://localhost:8001/${user.picture}`} alt={`profile picture of ${user.child_name}`} style={{ width: "300px", height: "300px" }} />
       <p>age: {user.age}</p>
       <p>gender:{user.gender}</p>
       <p>city:{user.city}</p>

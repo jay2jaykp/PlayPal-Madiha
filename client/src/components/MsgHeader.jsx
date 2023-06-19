@@ -8,7 +8,8 @@ export default function MsgHeader ({user}) {
   const logout = () =>{
     removeCookie('UserId',cookies.UserId);
     removeCookie('AuthToken', cookies.AuthToken)
-    window.location.reload();  
+    //window.location.reload();  
+    window.location.href = 'http://localhost:8001/';
   } 
   
   return (

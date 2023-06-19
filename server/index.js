@@ -384,16 +384,16 @@ app.post('/create-playdate', async (req, res) => {
     };
     const result = await playdates.insertOne(newPlaydate);
 
-    console.log("this is result ", result);
-    console.log("this is insertedCount ", result.insertedCount);
+   // console.log("this is result ", result);
+   // console.log("this is insertedCount ", result.insertedCount);
 
     //if (result.insertedCount === 1) { // not working with this
 
       const insertedDate = await playdates.findOne(newPlaydate);
      // res.send(insertedDate);
 
-     console.log("this is insertedDate ", insertedDate);
-      console.log("this is newPlaydate ", newPlaydate);
+    // console.log("this is insertedDate ", insertedDate);
+      //console.log("this is newPlaydate ", newPlaydate);
       res.status(200).json(newPlaydate);
    
   } catch (error) {
