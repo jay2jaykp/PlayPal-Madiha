@@ -42,8 +42,8 @@ export default function MatchesDisplay({ matches, setSelectedUser }) {
         <div key={match.user_id} className="matchCard" onClick={() => setSelectedUser(match)}>
           <div className="img-container">
             <img src={match?.picture} alt={match?.child_name + " profile"} />
+            <p className="chats-name">{match?.child_name}</p>
           </div>
-          <h3>{match?.child_name}</h3>
         </div>
       ))}
     </div>

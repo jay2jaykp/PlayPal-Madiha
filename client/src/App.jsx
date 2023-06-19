@@ -12,10 +12,7 @@ import Terms from './routes/Terms';
 
 
 function App() {
-  
-
   const [cookies, setCookies, removeCookie ] = useCookies (['user'])
-
   const authToken = cookies.AuthToken;
 
   return (

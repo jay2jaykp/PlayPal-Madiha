@@ -93,8 +93,9 @@ if (response.status === 200 || response.status === 201) {
       </div>
       <h2>{isSignup ? 'Create Account' : 'Log in'}</h2>
       <p>
-        By clicking log in, you agree to our <a href="/terms">terms and conditions</a>. Learn how we process your
-        data in our Privacy Policy
+        By clicking log in, you agree to our <a href="/terms">terms and conditions</a>.
+        {//Learn how we process your data in our Privacy Policy.
+        } 
       </p>
       <form onSubmit={submitFunc} >
         <input
@@ -127,7 +128,7 @@ if (response.status === 200 || response.status === 201) {
           />
         )}
         <button className="form-submit-btn" type="submit">Submit</button>
-        <p>{error}</p>
+        <p className='errmsg'>{error}</p>
       </form>
       <hr />
       <h2>GET THE APP</h2>

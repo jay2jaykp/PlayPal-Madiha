@@ -13,8 +13,8 @@ const MsgContainer = ({ user }) => {
       <MsgHeader user={user} />
 
       <div>
-        <button className="option" onClick={() => setSelectedUser(null)}>Matches</button>
-        <button className="option" disabled={!selectedUser}>Message</button>
+        <button className="option" onClick={() => setSelectedUser(null)}>Chats</button>
+        <button className="option" disabled={!selectedUser}>Inbox</button>
       </div>
 
       {!selectedUser ? (

@@ -70,7 +70,6 @@ export default function MsgDisplay({ user, selectedUser }) {
          selectedUser={selectedUser}
           getUserMessages={getUsersMessages}
            getSelectedUsersMessages={getSelectedUsersMessages}/>
-      
     </div>
   );
 }

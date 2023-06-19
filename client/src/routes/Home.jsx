@@ -29,7 +29,7 @@ export default function Home() {
     <main id="main">
 
       <button className= "btn" onClick={clickFunc}>
-        {authToken? 'signout' : 'create account'}
+        {authToken? 'signout' : 'sign up'}
       </button>
 
       {showAuth && (

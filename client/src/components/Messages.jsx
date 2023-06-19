@@ -7,10 +7,10 @@ const Messages = ({ descendingOrderMessages }) => {
             <div className="chat-message-header">
               <div className="img-container">
                 <img src={message.img} alt={message.name + ' profile'} />
+                <p>{message.name}</p>
               </div>
-              <p>{message.name}</p>
             </div>
-            <p>{message.message}</p>
+            <p className="messages">{message.message}</p>
           </div>
         ))}
       </div>
