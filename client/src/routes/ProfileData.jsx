@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../helper';
-
 import { useParams } from 'react-router-dom';
+
 
 const ProfileData = () => {
   const { userId } = useParams();
-
   const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -29,20 +27,31 @@ const ProfileData = () => {
   }
 
   return (
-    <div>
-      <h1>User Profile</h1>
-      <p>Name: {user.child_name}</p>
-      <img src={`${BASEURL}/${user.picture}`} alt={`Profile picture of ${user.child_name}`} style={{ width: "300px", height: "300px" }} />
-      <p>age: {user.age}</p>
-      <p>gender:{user.gender}</p>
-      <p>city:{user.city}</p>
-      <p>country:{user.country}</p>
-      <p>language:{user.language}</p>
-      <p>other_language:{user.other_language}</p>
-      <p>show_matches: {user.show_matches}</p>
-      <p>interest: {user.interest}</p>
-      <p>availability: {user.availability}</p>
-      <p>additional_info:{user.additional_info}</p>
+    <div className="profile-container">
+      <h1>{user.child_name}</h1>
+      <img src={`${BASEURL}/${user.picture}`} alt={`Profile picture of ${user.child_name}`} />
+      <div className="profile-info">
+        <label>Age:</label>
+        <p>{user.age}</p>
+        <label>Gender:</label>
+        <p>{user.gender}</p>
+        <label>City:</label>
+        <p>{user.city}</p>
+        <label>Country:</label>
+        <p>{user.country}</p>
+        <label>Language:</label>
+        <p>{user.language}</p>
+        <label>Other Language:</label>
+        <p>{user.other_language}</p>
+        <label>Show Matches:</label>
+        <p>{user.show_matches}</p>
+        <label>Interest:</label>
+        <p>{user.interest}</p>
+        <label>Availability:</label>
+        <p>{user.availability}</p>
+        <label>Additional Info:</label>
+        <p>{user.additional_info}</p>
+      </div> 
     </div>
   );
 };

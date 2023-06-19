@@ -141,7 +141,7 @@ const Dashboard = () => {
                                             className="card"
                                         >
                                             <Link to={`/profiledata/${matchedUser.user_id}`}>
-                                                <h3 className="matched-username">{matchedUser.child_name}</h3>
+                                                <h3 className="matched-username" >{matchedUser.child_name}</h3>
                                             </Link>
                                             <button onClick={() => createPlaydate(matchedUser.user_id)}>Create Playdate</button>
                                             {playdate && (

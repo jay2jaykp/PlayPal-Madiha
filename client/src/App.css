@@ -399,14 +399,16 @@ input[type="submit"]:hover {
   margin-top: 0px;
 }
 
-.matched-username{
+.matched-username {
   color: rgb(243, 33, 33);
   text-decoration: none;
   text-transform: uppercase;
 }
-link{
+
+.matched-username:hover {
   text-decoration: none;
 }
+
 .cardContanier-heading, .cardContanier-subheading  {
  position: relative;
 top:10%;
@@ -416,3 +418,47 @@ top:10%;
 .cardContanier-subheading {
   left:193%;
  }
+
+ /*-------- Profile Data --------*/
+ .profile-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.profile-container p {
+  margin-bottom: 5px;
+}
+
+.profile-container img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  
+}
+
+.profile-container .profile-info {
+  display: grid;
+  grid-template-columns: 120px auto;
+  grid-row-gap: 5px;
+  margin-bottom: 20px;
+}
+
+.profile-container .profile-info label {
+  font-weight: bold;
+}
+
+.profile-container .profile-info p {
+  margin: 0;
+}
