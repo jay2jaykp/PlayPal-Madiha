@@ -102,6 +102,46 @@ app.post('/login', async (req, res) => {
   }
 });
 
+/************************LOGIN ************** 
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db('playpal-data');
+    const users = database.collection('users');
+    const user = await users.findOne({ email }); // Retrieve the user
+
+    if (!user) {
+      // User does not exist, return an error message
+      return res.status(404).send('User does not exist. Please proceed to sign up.');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.hashed_password);
+
+    if (!isPasswordValid) {
+      // Password is incorrect, return an error message
+      return res.status(401).send('Incorrect password. Please try again.');
+    }
+
+    const isAdmin = user.isAdmin; // Assuming you have an 'isAdmin' property in your user data
+
+    // Password is correct, generate and send the authentication token
+    const token = jwt.sign({ userId: user.user_id, isAdmin }, email, {
+      expiresIn: '12h',
+    });
+
+    res.status(200).json({ token, userId: user.user_id, isAdmin });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error!!!!!!! Un expected');
+  } finally {
+    await client.close();
+  }
+});
+*/
 /************************Get current user data ************** */
 
 app.get('/user', async (req, res) => {
@@ -129,29 +169,7 @@ app.get('/user', async (req, res) => {
   }
 });
 
-
 /************************ ADD MATCH ************** */
-/*app.put('/addmatch', async (req, res) => {
-  const client = new MongoClient(uri);
-  const { userId, matchedUserId } = req.body;
-
-  // console.log('matched user Id data is here  ', matchedUserId);   
-
-  try {
-    await client.connect();
-    const database = client.db('playpal-data');
-    const users = database.collection('users');
-    const query = { user_id: userId }
-    const updateDocument = {
-      $push: { matches: { user_id: matchedUserId } }
-    }
-    const user = await users.updateOne(query, updateDocument)
-    res.send(user);
-  } finally {
-    await client.close();
-  }
-});
-*/
 app.put('/addmatch', async (req, res) => {
   const client = new MongoClient(uri);
   const { userId, matchedUserId } = req.body;
@@ -242,8 +260,6 @@ app.get('/profiledata/:userId', async (req, res) => {
 });
 
 /************************Get matched users ************** */
-
-
 app.get('/matched-users', async (req, res) => {
   const client = new MongoClient(uri);
   const userCity = req.query.city;
@@ -291,7 +307,7 @@ app.put('/user', upload.single('picture'), async (req, res) => {
 
   if (file) {
     const client = new MongoClient(uri);
-
+  
     try {
       await client.connect();
       const database = client.db('playpal-data');
@@ -312,10 +328,9 @@ app.put('/user', upload.single('picture'), async (req, res) => {
           interest: req.body.interest,
           availability: req.body.availability,
           additional_info: req.body.additional_info,
-          
         },
       };
-
+  
       const newUser = await users.updateOne(query, updateDocument);
       res.send(newUser);
     } finally {

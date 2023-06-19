@@ -1,4 +1,3 @@
-
 import Nav from "../components/Nav";
 import AuthenticationForm from '../components/AuthenticationForm'
 import {useState} from 'react';
@@ -11,7 +10,6 @@ export default function Home() {
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
   const authToken = cookies.AuthToken
   
-
   const clickFunc = () => {
     if (authToken) {
       removeCookie('UserId', cookies.UserId)

@@ -24,7 +24,8 @@ const profile = () => {
   });
 
   let navigate = useNavigate();
-  const BASE_URL = `${BASE_URL}` || 'http://localhost:8000';
+  //const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
+  const BASEURL = "http://localhost:8000";
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -44,7 +45,8 @@ const profile = () => {
         }
       }
 
-      const response = await axios.put(`${BASE_URL}/user`, formData, {
+      const response = await axios.put(`${BASEURL}/user`, formData, {
+        //const response = await axios.put("http://localhost:8000/user", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

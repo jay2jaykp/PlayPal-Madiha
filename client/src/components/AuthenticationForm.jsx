@@ -33,7 +33,27 @@ const AuthenticationForm = ({ setShowAuth, isSignup }) => {
         email,
         password,
       });
-  
+      // Inside the submitFunc() function of AuthenticationForm component
+/*
+if (response.status === 200 || response.status === 201) {
+  setCookie('AuthToken', response.data.token);
+  setCookie('UserId', response.data.userId);
+
+  const isAdmin = response.data.isAdmin; // Get the 'isAdmin' value from the response
+
+  if (isSignup) {
+    navigate('/profile');
+  } else if (isAdmin) {
+    navigate('/admin'); // Redirect to the admin page
+  } else {
+    navigate('/dashboard');
+  }
+  window.location.reload();
+} else {
+  setError('An error occurred. Please try again.');
+}
+
+  */
       if (response.status === 200 || response.status === 201) {
         setCookie('AuthToken', response.data.token);
         setCookie('UserId', response.data.userId);

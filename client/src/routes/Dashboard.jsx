@@ -32,7 +32,19 @@ const Dashboard = () => {
     const [lastDirection, setLastDirection] = useState();
     const [swipedUsers, setSwipedUsers] = useState([]);
     const [playdate, setPlaydate] = useState(null);
-
+/*
+    const getUser = async () => {
+        try {
+          const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
+          const userData = response.data;
+          const isAdmin = userData.email === 'admin@gmail.com'; // Assuming admin email is 'admin@example.com'
+          setUser({ ...userData, isAdmin });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      
+    */
     const getUser = async () => {
         try {
           const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
