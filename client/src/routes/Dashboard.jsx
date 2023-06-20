@@ -120,19 +120,16 @@ const Dashboard = () => {
                     <MsgContainer user={user} />
                     <div className="movetoNext">
                         <div className="cardContanier">
-                        <h3 className="cardContanier-heading">Matches</h3>
-                        <p className="cardContanier-subheading">(Swipe Right to Chat, Left to Pass)</p>
+                            <h3 className="cardContanier-heading">Matches</h3>
+                            <p className="cardContanier-subheading">(Swipe Right to Chat, Left to Pass)</p>
                             {filteredCityUsers && filteredCityUsers.length > 0 ? (
-                                
                                 filteredCityUsers.map((matchedUser) => (
-                                    
                                     <TinderCard
                                         className="swipe"
                                         key={matchedUser.user_id}
                                         onSwipe={(dir) => swiped(dir, matchedUser.user_id)}
                                         onCardLeftScreen={() => outOfFrame(matchedUser.child_name)}
                                     >
-                                       
                                         <div
                                             style={{
                                                 backgroundImage: matchedUser.picture
@@ -152,7 +149,6 @@ const Dashboard = () => {
                                             )}
                                         </div>
                                     </TinderCard>
-                                    
                                 ))
                             ) : (
                                 <div className="no-matches-msg">

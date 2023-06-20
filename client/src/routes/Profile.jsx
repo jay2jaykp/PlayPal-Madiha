@@ -24,8 +24,7 @@ const profile = () => {
   });
 
   let navigate = useNavigate();
-  //const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
-  const BASEURL = "http://localhost:8000";
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
 
   const submitHandler = async (event) => {
     event.preventDefault();

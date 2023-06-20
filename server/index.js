@@ -17,7 +17,6 @@ app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
 app.get('/', function (req, res) {
   res.json('Hello to my app');
 });
@@ -382,7 +381,7 @@ app.post('/message', async (req, res) => {
   }
 });
 
-/************************ Create Playdate **************/
+/************************ Create Playdate *************
 app.post('/create-playdate', async (req, res) => {
   const client = new MongoClient(uri); 
   const { userId, matchedUserId } = req.body;
@@ -418,6 +417,47 @@ app.post('/create-playdate', async (req, res) => {
     await client.close();
   }
 });
+*/
+/************************ Insert a  Playdate **************/
+const client = new MongoClient(uri);
+
+app.post('/playdate', async (req, res) => {
+  const { userId, matchedUserId } = req.body;
+
+  if (!userId || !matchedUserId) {
+    return res.status(400).send('Bad Request');
+  }
+
+  try {
+    await client.connect();
+    const database = client.db('playpal-data');
+    const playdates = database.collection('playdates');
+    const newPlaydate = {
+      userId,
+      matchedUserId,
+      date: new Date(),
+    };
+
+    const result = await playdates.insertOne(newPlaydate);
+
+    if (result.insertedCount === 1) {
+      const insertedPlaydate = await playdates.findOne(newPlaydate);
+      return res.status(200).json(insertedPlaydate);
+    } else {
+      return res.status(500).send('Failed to create playdate');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Close the MongoClient connection when the server is stopped
+process.on('SIGINT', async () => {
+  await client.close();
+  process.exit();
+});
+
 
 app.listen(PORT, function () {
   console.log('Server listening on port ' + PORT);

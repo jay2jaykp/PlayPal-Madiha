@@ -1,33 +1,35 @@
 import './App.css'
-import './helper.jsx'
+import { BASE_URL } from './helper'; // Import BASE_URL from helper.jsx
 
-//import page content
+// Import page content
 import Home from "./routes/Home";
 import Dashboard from "./routes/Dashboard";
 import Profile from "./routes/Profile";
 import ProfileData from "./routes/ProfileData";
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import Playdate from "./routes/playdate";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Terms from './routes/Terms';
 
-
 function App() {
-  const [cookies, setCookies, removeCookie ] = useCookies (['user'])
+  const [cookies] = useCookies(['user']);
   const authToken = cookies.AuthToken;
+  const BASEURL = BASE_URL || 'http://localhost:8000'; // Use BASE_URL from helper.jsx
 
   return (
     <div className="App">
       <BrowserRouter>
-      <Routes>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/profiledata/:userId" element={<ProfileData />} />
-          {authToken && <Route path="/dashboard" element={<Dashboard />} />}
-          {authToken &&<Route path="/profile" element={<Profile />} />}
-      </Routes>
+          {authToken && <Route path="/dashboard" element={<Dashboard BASEURL={BASEURL} />} />}
+          {authToken && <Route path="/profile" element={<Profile BASEURL={BASEURL} />} />}
+          {authToken && <Route path="/playdate" element={<Playdate BASEURL={BASEURL} />} />}
+        </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

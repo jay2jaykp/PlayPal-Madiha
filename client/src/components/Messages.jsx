@@ -1,4 +1,7 @@
+import { BASE_URL } from '../helper';
+
 const Messages = ({ descendingOrderMessages }) => {
+  const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
   return (
     <>
       <div className="msgDisplay">
@@ -6,7 +9,7 @@ const Messages = ({ descendingOrderMessages }) => {
           <div key={_index}>
             <div className="chat-message-header">
               <div className="img-container">
-                <img src={message.img} alt={message.name + ' profile'} />
+            <img src={`${BASEURL}/${message.img} `} alt={message.name + ' profile'} />
                 <p>{message.name}</p>
               </div>
             </div>
