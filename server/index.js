@@ -381,11 +381,11 @@ app.post('/message', async (req, res) => {
   }
 });
 
-/************************ Create Playdate *************
+/************************ Create Playdate ************
 app.post('/create-playdate', async (req, res) => {
   const client = new MongoClient(uri); 
   const { userId, matchedUserId } = req.body;
-  console.log("this is userId  ", userId, matchedUserId);
+  
 
   try {
     await client.connect();
@@ -416,47 +416,75 @@ app.post('/create-playdate', async (req, res) => {
   } finally {
     await client.close();
   }
-});
-*/
+});*/
+
 /************************ Insert a  Playdate **************/
-const client = new MongoClient(uri);
 
 app.post('/playdate', async (req, res) => {
-  const { userId, matchedUserId } = req.body;
+  const client = new MongoClient(uri);
 
-  if (!userId || !matchedUserId) {
-    return res.status(400).send('Bad Request');
-  }
+  const { user_id, date, child_name, time, location } = req.body;
+
+  console.log("here i am" , child_name);
 
   try {
     await client.connect();
     const database = client.db('playpal-data');
     const playdates = database.collection('playdates');
     const newPlaydate = {
-      userId,
-      matchedUserId,
-      date: new Date(),
+      user_id,
+      date,
+      child_name,
+      time,
+      location
     };
 
     const result = await playdates.insertOne(newPlaydate);
 
-    if (result.insertedCount === 1) {
+
+    //if (result.insertedCount === 1) {
       const insertedPlaydate = await playdates.findOne(newPlaydate);
+     
       return res.status(200).json(insertedPlaydate);
-    } else {
+      
+   /* } else {
       return res.status(500).send('Failed to create playdate');
-    }
+    }*/
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
+  } finally {
+    await client.close();
   }
 });
 
-// Close the MongoClient connection when the server is stopped
-process.on('SIGINT', async () => {
-  await client.close();
-  process.exit();
+
+
+
+app.get('/scheduled-dates/:userId', async (req, res) => {
+  const client = new MongoClient(uri);
+  const userId = req.params.userId;
+
+  try {
+    await client.connect();
+    const database = client.db('playpal-data');
+    const playdates = database.collection('playdates');
+
+    // Retrieve scheduled dates for the specified user ID
+    const scheduledDates = await playdates.find({ user_id: userId }).toArray();
+
+    // Send the scheduled dates as the response
+    res.json(scheduledDates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  } finally {
+    await client.close();
+  }
 });
+
+
+
 
 
 app.listen(PORT, function () {

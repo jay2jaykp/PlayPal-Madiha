@@ -1,11 +1,11 @@
 import TinderCard from 'react-tinder-card';
 import MsgContainer from "../components/MsgContainer";
-//import '@react-spring/web';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '../helper';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const BASEURL = `${BASE_URL}` || 'http://localhost:8000';
@@ -30,20 +30,19 @@ const Dashboard = () => {
     const [matchedUsers, setMatchedUsers] = useState(null);
     const [lastDirection, setLastDirection] = useState();
     const [swipedUsers, setSwipedUsers] = useState([]);
-    const [playdate, setPlaydate] = useState(null);
-    /*
-        const getUser = async () => {
-            try {
-              const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
-              const userData = response.data;
-              const isAdmin = userData.email === 'admin@gmail.com'; // Assuming admin email is 'admin@example.com'
-              setUser({ ...userData, isAdmin });
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          
-        */
+    const [showPlaydateForm, setShowPlaydateForm] = useState(false);
+      const [showScheduledDates, setShowScheduledDates] = useState(true);
+    const [scheduledDates, setScheduledDates] = useState([]);
+
+    const [playdateData, setPlaydateData] = useState({
+        user_id: cookies.UserId,
+        date: '',
+        child_name: '',
+        time: '',
+        location: ''
+    });
+    const navigate = useNavigate();
+
     const getUser = async () => {
         try {
             const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
@@ -86,19 +85,6 @@ const Dashboard = () => {
         }
     };
 
-    const createPlaydate = async (matchedUserId) => {
-        try {
-            const response = await axios.post(`${BASEURL}/create-playdate`, {
-                userId,
-                matchedUserId
-            });
-            setPlaydate(response.data);
-        } catch (err) {
-            console.log("Error", err);
-        }
-    };
-    console.log("this is playdate: ", playdate);
-
     const swiped = (direction, swipedUserId) => {
         if (direction === 'right' || direction === 'up') {
             updateMatches(swipedUserId);
@@ -112,6 +98,58 @@ const Dashboard = () => {
 
     const matchedUserIds = user?.matches?.map(({ user_id }) => user_id).concat(userId) || [];
     const filteredCityUsers = matchedUsers?.filter(matchedUser => !matchedUserIds.includes(matchedUser.user_id));
+
+    const submitPlaydate = async (event) => {
+        console.log('Submit playdate form');
+        event.preventDefault();
+
+        try {
+            console.log('Submit playdate form2');
+            const response = await axios.post(`${BASEURL}/playdate`, playdateData);
+            console.log("Here is the response:", response);
+            const success = response.status === 200;
+            if (success) {
+                // Reset the form and hide it
+                setPlaydateData({
+                    user_id: cookies.UserId,
+                    date: '',
+                    child_name: '',
+                    time: '',
+                    location: ''
+                });
+                setShowPlaydateForm(false);
+                console.log("Here is setShowPlaydateForm response:", showPlaydateForm);
+                // Navigate to the success page or any other desired destination
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
+    const handlePlaydateChange = (event) => {
+        const { name, value } = event.target;
+
+        setPlaydateData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const getScheduledDates = async () => {
+        try {
+            const response = await axios.get(`${BASEURL}/scheduled-dates`);
+            setScheduledDates(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        getUser();
+        getScheduledDates();
+    }, []);
+
 
     return (
         <div>
@@ -139,26 +177,87 @@ const Dashboard = () => {
                                             className="card"
                                         >
                                             <Link to={`/profiledata/${matchedUser.user_id}`}>
-                                                <h3 className="matched-username" >{matchedUser.child_name}</h3>
+                                                <h3 className="matched-username">{matchedUser.child_name}</h3>
                                             </Link>
-                                            <button onClick={() => createPlaydate(matchedUser.user_id)}>Create Playdate</button>
-                                            {playdate && (
-                                                <div>
-                                                    Playdate: {playdate.date} , User:{playdate.matchedUserId}
-                                                </div>
-                                            )}
                                         </div>
                                     </TinderCard>
                                 ))
                             ) : (
                                 <div className="no-matches-msg">
-                                    Sorry, no matches at this time!
+                                    Sorry, no matches found!
                                 </div>
                             )}
                             <div className="swipeInfo">
                                 {lastDirection ? <p>you swiped {lastDirection}</p> : <p />}
                             </div>
                         </div>
+                        <div className="create-playdate">
+                            {showPlaydateForm ? (
+                                <form onSubmit={submitPlaydate}>
+                                    <h2>Create Playdate</h2>
+
+                                    <label htmlFor="date">Date:</label>
+                                    <input
+                                        type="date"
+                                        id="date"
+                                        name="date"
+                                        value={playdateData.date}
+                                        onChange={handlePlaydateChange}
+                                        required
+                                    />
+
+                                    <label htmlFor="childName">Child's Name:</label>
+                                    <input
+                                        type="text"
+                                        id="childName"
+                                        name="child_name"
+                                        value={playdateData.child_name}
+                                        onChange={handlePlaydateChange}
+                                        required
+                                    />
+
+                                    <label htmlFor="time">Time:</label>
+                                    <input
+                                        type="time"
+                                        id="time"
+                                        name="time"
+                                        value={playdateData.time}
+                                        onChange={handlePlaydateChange}
+                                        required
+                                    />
+
+                                    <label htmlFor="location">Location:</label>
+                                    <input
+                                        type="text"
+                                        id="location"
+                                        name="location"
+                                        value={playdateData.location}
+                                        onChange={handlePlaydateChange}
+                                        required
+                                    />
+
+                                    <button type="submit">Submit</button>
+                                </form>
+                            ) : (
+                                <button onClick={() => setShowPlaydateForm(true)}>Create Playdate</button>
+                            )}
+
+                        </div>
+                        <div className="scheduled-dates">
+                            <h3>Scheduled Dates</h3>
+                            {showScheduledDates && (scheduledDates.length > 0 ? (
+                                <ul>
+                                    {scheduledDates.map((date) => (
+                                        <li key={date._id}>
+                                            {date.date} - {date.child_name} - {date.time} - {date.location}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No scheduled dates found.</p>
+                           ) )}
+                        </div>
+
                     </div>
                 </div>
             )}

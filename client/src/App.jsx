@@ -6,7 +6,7 @@ import Home from "./routes/Home";
 import Dashboard from "./routes/Dashboard";
 import Profile from "./routes/Profile";
 import ProfileData from "./routes/ProfileData";
-import Playdate from "./routes/playdate";
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Terms from './routes/Terms';
@@ -25,11 +25,9 @@ function App() {
           <Route path="/profiledata/:userId" element={<ProfileData />} />
           {authToken && <Route path="/dashboard" element={<Dashboard BASEURL={BASEURL} />} />}
           {authToken && <Route path="/profile" element={<Profile BASEURL={BASEURL} />} />}
-          {authToken && <Route path="/playdate" element={<Playdate BASEURL={BASEURL} />} />}
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-
 export default App;

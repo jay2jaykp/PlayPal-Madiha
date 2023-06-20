@@ -83,7 +83,7 @@ html {
     left: 62%;
     transform: translate(-50%, -50%);
   }
-/************* Log In Form *******/
+/************* Log In Form *******************/
   .authentication {
   position: absolute;
   top: 38%;
@@ -156,7 +156,7 @@ html {
   text-align: center;
   font-size: 20px;
 }
-/************* Profile Form *******/
+/*********************** Profile Form *********************/
 .profile {
     max-width: 500px;
     margin: 0 auto;
@@ -267,10 +267,44 @@ input[type="submit"]:hover {
     margin-top: 5px;
 }
 
-.dashboard{
+
+/*-------- Dashboard --------*/
+.dashboard {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
+
+.create-playdate {
+  width: 10vw;
+  position: absolute;
+  top:29%;
+  left: 400%;
+  background-color: #fff;
+  box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
+  border-radius: 5px;
+}
+
+.scheduled-dates{
+  width: 15vw;
+  position: absolute;
+  top:90%;
+  left: 500%;
+  background-color: #fff;
+  box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
+  border-radius: 5px;
+}
+
+.no-matches-msg{
+  width: 20vw;
+  position: absolute;
+  top:110%;
+  left: 180%;
+  background-color: #fff;
+  box-shadow: 0px 0px 60px 0px rgba(0,0,0,0.30);
+  border-radius: 5px;
+}
+
+/*-------- Card --------*/
 .movetoNext{
   position: absolute;
 }
@@ -351,8 +385,6 @@ input[type="submit"]:hover {
 
 }
 
-
-
 /*-------- Chat Display --------*/
 .msgdisplay,
 .matchesDisplay {
@@ -381,12 +413,7 @@ input[type="submit"]:hover {
   border-radius: 50%;
 }
 
-.no-matches-msg{
-  width: 300px;
-  height: 100px;
-  background-color: "white";
-  margin: "0 0 0 500px";
-}
+
 .messages{
   background-color: #ccc;
   padding: 10px;
@@ -445,7 +472,6 @@ top:10%;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
-  
 }
 
 .profile-container .profile-info {
