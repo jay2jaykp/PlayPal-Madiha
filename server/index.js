@@ -425,8 +425,6 @@ app.post('/playdate', async (req, res) => {
 
   const { user_id, date, child_name, time, location } = req.body;
 
-  console.log("here i am" , child_name);
-
   try {
     await client.connect();
     const database = client.db('playpal-data');
@@ -439,11 +437,14 @@ app.post('/playdate', async (req, res) => {
       location
     };
 
+
     const result = await playdates.insertOne(newPlaydate);
 
 
     //if (result.insertedCount === 1) {
       const insertedPlaydate = await playdates.findOne(newPlaydate);
+
+      console.log("here i am insertedPlaydate : " , insertedPlaydate );
      
       return res.status(200).json(insertedPlaydate);
       
@@ -465,13 +466,19 @@ app.get('/scheduled-dates/:userId', async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.params.userId;
 
+  console.log("here i am userId : " , userId );
+
   try {
     await client.connect();
     const database = client.db('playpal-data');
     const playdates = database.collection('playdates');
 
+    console.log("here i am playdates : " , playdates );
+
     // Retrieve scheduled dates for the specified user ID
     const scheduledDates = await playdates.find({ user_id: userId }).toArray();
+
+    console.log("here i am scheduledDates : " , scheduledDates );
 
     // Send the scheduled dates as the response
     res.json(scheduledDates);
@@ -482,8 +489,6 @@ app.get('/scheduled-dates/:userId', async (req, res) => {
     await client.close();
   }
 });
-
-
 
 
 

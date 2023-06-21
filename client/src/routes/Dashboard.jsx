@@ -31,7 +31,7 @@ const Dashboard = () => {
     const [lastDirection, setLastDirection] = useState();
     const [swipedUsers, setSwipedUsers] = useState([]);
     const [showPlaydateForm, setShowPlaydateForm] = useState(false);
-      const [showScheduledDates, setShowScheduledDates] = useState(true);
+    const [showScheduledDates, setShowScheduledDates] = useState(true);
     const [scheduledDates, setScheduledDates] = useState([]);
 
     const [playdateData, setPlaydateData] = useState({
@@ -42,7 +42,7 @@ const Dashboard = () => {
         location: ''
     });
     const navigate = useNavigate();
-
+    /**************************************************** */
     const getUser = async () => {
         try {
             const response = await axios.get(`${BASEURL}/user`, { params: { userId: userId } });
@@ -52,6 +52,7 @@ const Dashboard = () => {
         }
     };
 
+    /**************************************************** */
     const getMatchedUsers = async () => {
         try {
             const response = await axios.get(`${BASEURL}/matched-users`, {
@@ -73,6 +74,7 @@ const Dashboard = () => {
         }
     }, [user]);
 
+    /**************************************************** */
     const updateMatches = async (matchedUserId) => {
         try {
             await axios.put(`${BASEURL}/addmatch`, {
@@ -84,7 +86,7 @@ const Dashboard = () => {
             console.log("Error", err);
         }
     };
-
+    /**************************************************** */
     const swiped = (direction, swipedUserId) => {
         if (direction === 'right' || direction === 'up') {
             updateMatches(swipedUserId);
@@ -99,6 +101,7 @@ const Dashboard = () => {
     const matchedUserIds = user?.matches?.map(({ user_id }) => user_id).concat(userId) || [];
     const filteredCityUsers = matchedUsers?.filter(matchedUser => !matchedUserIds.includes(matchedUser.user_id));
 
+    /**************************************************** */
     const submitPlaydate = async (event) => {
         console.log('Submit playdate form');
         event.preventDefault();
@@ -118,6 +121,7 @@ const Dashboard = () => {
                     location: ''
                 });
                 setShowPlaydateForm(false);
+
                 console.log("Here is setShowPlaydateForm response:", showPlaydateForm);
                 // Navigate to the success page or any other desired destination
                 navigate('/dashboard');
@@ -127,6 +131,14 @@ const Dashboard = () => {
         }
     };
 
+    /****************************************************/
+
+    const handleClick = () => {
+        setShowPlaydateForm(false);
+        setShowScheduledDates(true);
+    };
+
+    /**************************************************** */
 
     const handlePlaydateChange = (event) => {
         const { name, value } = event.target;
@@ -137,19 +149,32 @@ const Dashboard = () => {
         }));
     };
 
+    /**************************************************** */
     const getScheduledDates = async () => {
+
         try {
-            const response = await axios.get(`${BASEURL}/scheduled-dates`);
+            const response = await axios.get(`${BASEURL}/scheduled-dates/${userId}`);
+
+
+            console.log("Scheduled Dates with responseeee:", response.data);
+
+
+
             setScheduledDates(response.data);
+
+
+            console.log("ScheduledDates1: ", scheduledDates)
         } catch (error) {
             console.log(error);
         }
     };
+
+    console.log("ScheduledDates2: ", scheduledDates)
     useEffect(() => {
         getUser();
         getScheduledDates();
     }, []);
-
+    console.log("ScheduledDates3: ", scheduledDates)
 
     return (
         <div>
@@ -192,9 +217,15 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="create-playdate">
+
+
+                            <div className="close" onClick={handleClick}  > [X] </div>
+
                             {showPlaydateForm ? (
                                 <form onSubmit={submitPlaydate}>
-                                    <h2>Create Playdate</h2>
+
+                                    <h2>   Create Playdate</h2>
+
 
                                     <label htmlFor="date">Date:</label>
                                     <input
@@ -236,27 +267,41 @@ const Dashboard = () => {
                                         required
                                     />
 
-                                    <button type="submit">Submit</button>
+
+                                    <button type="submit" onClick={() => {
+                                        setShowScheduledDates(true);
+                                    }}>Submit</button>
                                 </form>
-                            ) : (
-                                <button onClick={() => setShowPlaydateForm(true)}>Create Playdate</button>
-                            )}
+
+                            )
+                                : (
+                                    <button onClick={() => {
+                                        setShowPlaydateForm(true);
+                                        setShowScheduledDates(false);
+                                    }}>Create Playdate</button>
+
+                                )}
 
                         </div>
                         <div className="scheduled-dates">
                             <h3>Scheduled Dates</h3>
-                            {showScheduledDates && (scheduledDates.length > 0 ? (
-                                <ul>
-                                    {scheduledDates.map((date) => (
-                                        <li key={date._id}>
-                                            {date.date} - {date.child_name} - {date.time} - {date.location}
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No scheduled dates found.</p>
-                           ) )}
+                            {showScheduledDates ? (
+                                scheduledDates.length > 0 ? (
+                                    <ul>
+                                        {scheduledDates.map((date) => (
+                                            <li key={date._id}>
+                                               Date: {date.date} <br />
+                                                Name: {date.child_name} <br />
+                                                Time: {date.time} <br /> Location: {date.location}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>No scheduled dates found.</p>
+                                )
+                            ) : null}
                         </div>
+
 
                     </div>
                 </div>
