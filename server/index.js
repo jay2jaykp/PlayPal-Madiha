@@ -158,7 +158,7 @@ app.get('/user', async (req, res) => {
 
     //this is one way to store matches as an array in database
     //as matches is empty array and not getting input from client side, so better to define it server side as an array
-    if(!Array.isArray(userData.matches)) userData.matches = [];
+    if (!Array.isArray(userData.matches)) userData.matches = [];
 
     res.send(userData);   // sending response of 'userdata' as an objec
     //console.log("this is user data" , userData)
@@ -263,7 +263,7 @@ app.get('/matched-users', async (req, res) => {
   const client = new MongoClient(uri);
   const userCity = req.query.city;
 
- // console.log("this is city value:", city);
+  // console.log("this is city value:", city);
 
   try {
     await client.connect();
@@ -306,7 +306,7 @@ app.put('/user', upload.single('picture'), async (req, res) => {
 
   if (file) {
     const client = new MongoClient(uri);
-  
+
     try {
       await client.connect();
       const database = client.db('playpal-data');
@@ -329,7 +329,7 @@ app.put('/user', upload.single('picture'), async (req, res) => {
           additional_info: req.body.additional_info,
         },
       };
-  
+
       const newUser = await users.updateOne(query, updateDocument);
       res.send(newUser);
     } finally {
@@ -442,15 +442,13 @@ app.post('/playdate', async (req, res) => {
 
 
     //if (result.insertedCount === 1) {
-      const insertedPlaydate = await playdates.findOne(newPlaydate);
+    const insertedPlaydate = await playdates.findOne(newPlaydate);
 
-      console.log("here i am insertedPlaydate : " , insertedPlaydate );
-     
-      return res.status(200).json(insertedPlaydate);
-      
-   /* } else {
-      return res.status(500).send('Failed to create playdate');
-    }*/
+    return res.status(200).json(insertedPlaydate);
+
+    /* } else {
+       return res.status(500).send('Failed to create playdate');
+     }*/
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -459,28 +457,18 @@ app.post('/playdate', async (req, res) => {
   }
 });
 
-
-
-
 app.get('/scheduled-dates/:userId', async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.params.userId;
-
-  console.log("here i am userId : " , userId );
 
   try {
     await client.connect();
     const database = client.db('playpal-data');
     const playdates = database.collection('playdates');
 
-    console.log("here i am playdates : " , playdates );
-
     // Retrieve scheduled dates for the specified user ID
     const scheduledDates = await playdates.find({ user_id: userId }).toArray();
 
-    console.log("here i am scheduledDates : " , scheduledDates );
-
-    // Send the scheduled dates as the response
     res.json(scheduledDates);
   } catch (error) {
     console.error(error);
@@ -489,8 +477,6 @@ app.get('/scheduled-dates/:userId', async (req, res) => {
     await client.close();
   }
 });
-
-
 
 app.listen(PORT, function () {
   console.log('Server listening on port ' + PORT);

@@ -29,7 +29,7 @@ const Dashboard = () => {
     });
     const [matchedUsers, setMatchedUsers] = useState(null);
     const [lastDirection, setLastDirection] = useState();
-    const [swipedUsers, setSwipedUsers] = useState([]);
+   // const [swipedUsers, setSwipedUsers] = useState([]);
     const [showPlaydateForm, setShowPlaydateForm] = useState(false);
     const [showScheduledDates, setShowScheduledDates] = useState(true);
     const [scheduledDates, setScheduledDates] = useState([]);
@@ -151,30 +151,18 @@ const Dashboard = () => {
 
     /**************************************************** */
     const getScheduledDates = async () => {
-
         try {
             const response = await axios.get(`${BASEURL}/scheduled-dates/${userId}`);
-
-
-            console.log("Scheduled Dates with responseeee:", response.data);
-
-
-
             setScheduledDates(response.data);
-
-
-            console.log("ScheduledDates1: ", scheduledDates)
         } catch (error) {
             console.log(error);
         }
     };
 
-    console.log("ScheduledDates2: ", scheduledDates)
     useEffect(() => {
         getUser();
         getScheduledDates();
     }, []);
-    console.log("ScheduledDates3: ", scheduledDates)
 
     return (
         <div>
@@ -217,16 +205,10 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="create-playdate">
-
-
                             <div className="close" onClick={handleClick}  > [X] </div>
-
                             {showPlaydateForm ? (
                                 <form onSubmit={submitPlaydate}>
-
                                     <h2>   Create Playdate</h2>
-
-
                                     <label htmlFor="date">Date:</label>
                                     <input
                                         type="date"
@@ -236,7 +218,6 @@ const Dashboard = () => {
                                         onChange={handlePlaydateChange}
                                         required
                                     />
-
                                     <label htmlFor="childName">Child's Name:</label>
                                     <input
                                         type="text"
@@ -246,7 +227,6 @@ const Dashboard = () => {
                                         onChange={handlePlaydateChange}
                                         required
                                     />
-
                                     <label htmlFor="time">Time:</label>
                                     <input
                                         type="time"
@@ -266,22 +246,17 @@ const Dashboard = () => {
                                         onChange={handlePlaydateChange}
                                         required
                                     />
-
-
                                     <button type="submit" onClick={() => {
                                         setShowScheduledDates(true);
                                     }}>Submit</button>
                                 </form>
-
                             )
                                 : (
                                     <button onClick={() => {
                                         setShowPlaydateForm(true);
                                         setShowScheduledDates(false);
                                     }}>Create Playdate</button>
-
                                 )}
-
                         </div>
                         <div className="scheduled-dates">
                             <h3>Scheduled Dates</h3>
@@ -301,8 +276,6 @@ const Dashboard = () => {
                                 )
                             ) : null}
                         </div>
-
-
                     </div>
                 </div>
             )}

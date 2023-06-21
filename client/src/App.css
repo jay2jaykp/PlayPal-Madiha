@@ -87,9 +87,9 @@ html {
   .authentication {
   position: absolute;
   top: 38%;
-  left: 86%;
+  left: 89%;
   transform: translate(-50%, -50%);
-  width: 320px;
+  width: 270px;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
@@ -170,6 +170,7 @@ h2 {
 
 form section {
     margin-bottom: 15px;
+    
 }
 
 label {
@@ -505,26 +506,26 @@ top:10%;
   cursor: pointer;
 }
 
-form {
+.scheduled-dates form {
   margin-bottom: 20px;
 }
 
-h2 {
+.scheduled-dates h2 {
   margin-bottom: 10px;
 }
 
-label {
+.scheduled-dates label {
   display: block;
   margin-bottom: 5px;
 }
 
-input {
+.scheduled-dates input {
   margin-bottom: 10px;
   padding: 5px;
   width: 95%;
 }
 
-button[type="submit"] {
+.scheduled-dates button[type="submit"] {
   margin-top: 10px;
   padding: 5px 10px;
   background-color: #4caf50;
@@ -537,17 +538,13 @@ button[type="submit"] {
   margin-top: 20px;
 }
 
-h3 {
-  margin-bottom: 10px;
-}
 
-ul {
+.scheduled-dates ul {
   list-style-type: none;
   padding: 0;
-
 }
 
-li {
-  margin-bottom: 5px;
+.scheduled-dates li {
   border: 1px solid black;
+  margin-bottom: 10px;
 }
