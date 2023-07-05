@@ -1,9 +1,4 @@
 {
-    "builds": [
-      {
-        "src": "dist/**",
-        "use": "@vercel/static"
-      }
-    ]
+  
   }
   

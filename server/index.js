@@ -12,17 +12,44 @@ const uri = process.env.URI;
 const PORT = process.env.PORT || 8000;
 
 const app = express();
-app.use(cors());
+
+
+
+// Add headers before the routes are defined
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'https://playpal-green.vercel.app');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
+//app.use(cors());
+app.use(cors({
+  origin: 'https://playpal-green.vercel.app'
+}));
+
 app.use(express.json());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res,next) {
   res.json('Hello to my app');
 });
 
 /************************Sign up ************** */
-app.post('/signup', async (req, res) => {
+app.post('/signup', async (req, res, next) => {
   const { email, password } = req.body;
   const uniqueUserId = uuidv4();
   const encryptedPassword = await bcrypt.hash(password, 10); // Changed the number of bcrypt rounds to 10
